@@ -26,6 +26,6 @@ app.use(session({
 massive(CONNECTION_STRING)
 .then(db => {
     app.set('db', db);
-    console.log('db live');
+    console.log('db is live');
     app.listen(SERVER_PORT, () => console.log(`Port ${SERVER_PORT}, living large!`))
 })
