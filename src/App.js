@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 class App extends Component {
   render() {
-    console.log(this.props.location)
+    // console.log(this.props.location)
     return (
       <div className="App">
         { this.props.location.pathname !== '/' && <Nav location={this.props.location} /> }

@@ -4,6 +4,7 @@ const session = require('express-session');
 const massive = require('massive');
 
 // CONTROLLERS
+const ac = require('./controller');
 
 
 // ENV
@@ -29,3 +30,6 @@ massive(CONNECTION_STRING)
     console.log('db is live');
     app.listen(SERVER_PORT, () => console.log(`Port ${SERVER_PORT}, living large!`))
 })
+
+// USER ENDPOINTS
+app.post('/auth/register', ac.register)

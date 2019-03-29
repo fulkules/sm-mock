@@ -27,6 +27,7 @@ export default function reducer(state = initialState, action){
         case UPDATE_USER:
             const { id, username } = payload;
             const img = payload.profile_pic;
+            // console.log('hit')            
             return { ...state, id, username, img };
         case CLEAR_USER:
             return { ...state, id: 0, username: '', password: '', img: '' }

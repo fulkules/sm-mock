@@ -45,7 +45,8 @@ class Auth extends Component {
       password: this.state.password
     }
     try {
-      let res = await axios.get('/auth/register', user)
+      let res = await axios.post('/auth/register', user)
+      // console.log(res.data)
       this.props.updateUser(res.data);
       this.props.history.push('/dashboard');
     } catch(err) {
@@ -61,7 +62,7 @@ class Auth extends Component {
     }
     try {
       let res = await axios.post('/auth/login', user);
-      // console.log(res)
+      console.log(res)
       this.props.updateUser(res.data);
       this.props.history.push('/dashboard');
     } catch(err) {
@@ -96,4 +97,14 @@ class Auth extends Component {
   }
 }
 
-export default connect(null, {updateUser})(Auth);
+const mapStateToProps = (reduxState) => {
+  return {
+    id: reduxState.id
+  }
+}
+
+const mapDispatchToProps = {
+  updateUser
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
