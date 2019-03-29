@@ -2,8 +2,9 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
     register: async (req, res) => {
-        console.log('hit')
+        // console.log('hit')
         const { username, password } = req.body;
+        const { session } = req;
         const db = req.app.get('db');
         let taken = await db.auth.check_username({ username });
         taken = +taken[0].count;
@@ -15,8 +16,8 @@ module.exports = {
         let hash = bcrypt.hashSync(password, salt);
         let user = await db.auth.register({ username, password: hash });
         user = user[0]
-        console.log({before: session})
-        sessionStorage.user = user;
+        // console.log({before: session})
+        session.user = user;
         res.status(200).send(session.user)
     }
 }
