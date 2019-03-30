@@ -5,6 +5,7 @@ const massive = require('massive');
 
 // CONTROLLERS
 const ac = require('./controller');
+const pc = require('./postCtrl')
 
 
 // ENV
@@ -36,3 +37,10 @@ app.post('/auth/register', ac.register)
 app.post('/auth/login', ac.login)
 app.post('/auth/logout', ac.logout)
 app.get('/api/current', ac.getUser)
+
+// POSTS
+app.get('/api/posts', pc.getAllPosts);
+app.get('/api/post/:id', pc.getPost);
+app.post('/api/post', pc.addPost);
+app.delete('/api/post/:id', pc.deletePost);
+app.put('/api/post/:id', pc.updatePost);

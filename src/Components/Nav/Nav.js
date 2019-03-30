@@ -2,26 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { clearUser, updateUser } from '../../ducks/reducer';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 class Nav extends Component {
-
-  componentDidMount(){
-    this.getUser();
-  }
-
-  getUser = async () => {
-    const { id } = this.props;
-    if(!id){
-        try {
-            let res = await axios.get('/api/current');
-            this.props.updateUser(res.data)
-            // console.log(res)
-        } catch(err) {
-            this.props.history.push('/')
-        }
-    }
-  }
 
   logout = async () => {
     await axios.post('/auth/logout');
@@ -33,8 +16,8 @@ class Nav extends Component {
     return (
       <div className="Nav">
         <h1>Nav Component</h1>
-        <button>Home</button>
-        <button>New Post</button>
+        <Link to="/dashboard"><button>Home</button></Link>
+        <Link to="/new"><button>New Post</button></Link>
         <button onClick={ this.logout }>Logout</button>
       </div>
     );
@@ -42,7 +25,12 @@ class Nav extends Component {
 }
 
 const mapStateToProps = (reduxState) => {
-  return reduxState;
+  console.log(reduxState)
+  const {username, img } = reduxState;
+  return {
+    username: reduxState.username,
+    img: reduxState.img
+  };
 }
 
 const mapDispatchToProps = {
