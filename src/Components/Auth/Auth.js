@@ -107,4 +107,4 @@ const mapDispatchToProps = {
   updateUser
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps  )(Auth);

@@ -33,3 +33,6 @@ massive(CONNECTION_STRING)
 
 // USER ENDPOINTS
 app.post('/auth/register', ac.register)
+app.post('/auth/login', ac.login)
+app.post('/auth/logout', ac.logout)
+app.get('/api/current', ac.getUser)
