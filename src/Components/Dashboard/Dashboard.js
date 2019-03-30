@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 class Dashboard extends Component {
   constructor(props){
     super(props)
 
     this.state = {
-      input: '',
+      search: '',
       posts: [],
-      myPosts: true
+      myPosts: true,
     }
   }
 
@@ -17,9 +18,9 @@ class Dashboard extends Component {
     this.displayPosts();
   }
 
-  displayPosts = () => {
+  displayPosts = async () => {
     // this.state.posts.map(post => post)
-    axios.get('/api/posts').then(res => {
+    await axios.get('/api/posts').then(res => {
       this.setState({ posts: res.data })
     })
   }
@@ -28,17 +29,21 @@ class Dashboard extends Component {
     this.setState({ [prop]: val })
   }
 
+  handleBox = () => {
+    this.setState({ myPosts: !this.state.myPosts })
+  }
+
   render() {
-    console.log(this.state.posts)
+    // console.log(this.state.posts)
     const {posts} = this.state;
-    const mappedPosts = posts.map( (post) => {
+    const mappedPosts = posts.map( (post, i) => {
       return (
-        <>
+        <Link key={post.id} to={`/post/${post.id}`}>
           <h3>{post.title}</h3>
           <p>{post.username}</p>
-          <img src={post.img} alt="post"/>
-        </>
-
+          <p>{post.content}</p>
+          <img src={post.img} alt="user post"/>
+        </Link>
       )
     })
     return (
@@ -47,11 +52,12 @@ class Dashboard extends Component {
         <input 
           type="text" 
           placeholder="Search by Title" 
-          onChange={ e => { this.handleChange('input', e.target.value) } }
+          value={this.state.search}
+          onChange={ e => { this.handleChange('search', e.target.value) } }
         />
         <button>Search</button>
         <button>Reset</button>
-        My Posts<input type="checkbox" value={this.state.myPosts} />
+        My Posts<input type="checkbox" value={this.state.myPosts} onChange={ this.handleBox } />
         <div>
           {mappedPosts}
         </div>

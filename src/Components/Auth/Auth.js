@@ -62,7 +62,7 @@ class Auth extends Component {
     }
     try {
       let res = await axios.post('/auth/login', user);
-      console.log(res)
+      // console.log(res)
       this.props.updateUser(res.data);
       this.props.history.push('/dashboard');
     } catch(err) {
