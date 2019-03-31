@@ -25,11 +25,11 @@ class Nav extends Component {
 }
 
 const mapStateToProps = (reduxState) => {
-  console.log(reduxState)
+  // console.log(reduxState)
   const {username, img } = reduxState;
   return {
-    username: reduxState.username,
-    img: reduxState.img
+    username,
+    img
   };
 }
 

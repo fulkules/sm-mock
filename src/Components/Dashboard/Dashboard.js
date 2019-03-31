@@ -25,6 +25,7 @@ class Dashboard extends Component {
     })
   }
 
+
   handleChange(prop, val){
     this.setState({ [prop]: val })
   }
@@ -41,8 +42,6 @@ class Dashboard extends Component {
         <Link key={post.id} to={`/post/${post.id}`}>
           <h3>{post.title}</h3>
           <p>{post.username}</p>
-          <p>{post.content}</p>
-          <img src={post.img} alt="user post"/>
         </Link>
       )
     })
@@ -67,7 +66,8 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (reduxState) => {
-  return reduxState
+  // console.log(reduxState)
+  return reduxState.id;
 }
 
 const mapDispatchToProps = {
