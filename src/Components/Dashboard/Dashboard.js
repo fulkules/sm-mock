@@ -67,7 +67,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = (reduxState) => {
   // console.log(reduxState)
-  return reduxState.id;
+  return reduxState.user_id;
 }
 
 const mapDispatchToProps = {

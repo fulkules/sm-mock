@@ -24,9 +24,9 @@ module.exports = {
     addPost: (req, res) => {
         const db = req.app.get('db');
         const { id } = req.session.user;
-        const { post } = req.body;
+        const { img, title, content } = req.body;
 
-        db.posts.add_post([id, post]).then(resp => {
+        db.posts.add_post([id, img, title, content]).then(resp => {
             res.status(200).send(resp);
         }).catch(err => {
             res.status(500).send(err)
