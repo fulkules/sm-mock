@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 class Form extends Component {
   constructor(props){
@@ -18,10 +19,12 @@ class Form extends Component {
 
   newPost = async () => {
     const {title, img, content} = this.state;
-    await axios.post('/api/post', { title, img, content })
+    await axios.post('/api/new', { title, img, content })
+    this.props.history.push('/dashboard');
   }
 
   render() {
+    console.log(this.props)
     return (
       <div className="Form">
         <h1>Form Component</h1>
@@ -34,4 +37,4 @@ class Form extends Component {
   }
 }
 
-export default Form;
+export default withRouter(Form);

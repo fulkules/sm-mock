@@ -10,19 +10,41 @@ class Dashboard extends Component {
     this.state = {
       search: '',
       posts: [],
-      myPosts: true,
+	  myPosts: true
     }
   }
 
+
+
   componentDidMount(){
-    this.displayPosts();
+	this.getUser();
   }
+
+getUser = async () => {
+	const { id } = this.props;
+	if(!id){
+		try {
+			let res = await axios.get('/api/current');
+			this.props.updateUser(res.data)
+			this.initComponent()
+			// console.log(res)
+		} catch(err) {
+			this.props.history.push('/')
+		}
+	} else {
+		this.displayPosts();
+	}
+}
+
+initComponent = () => {
+	this.displayPosts();
+}
 
   displayPosts = async () => {
     // this.state.posts.map(post => post)
-    await axios.get('/api/posts').then(res => {
-      this.setState({ posts: res.data })
-    })
+  	  await axios.get('/api/posts').then(res => {
+    	this.setState({ posts: res.data })
+      })
   }
 
 
@@ -67,7 +89,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = (reduxState) => {
   // console.log(reduxState)
-  return reduxState.user_id;
+  return reduxState;
 }
 
 const mapDispatchToProps = {

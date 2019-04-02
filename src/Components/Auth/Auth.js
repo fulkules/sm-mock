@@ -33,6 +33,7 @@ class Auth extends Component {
         // console.log(res)
       } catch(err) {
         console.log(err)
+        this.props.history.push('/')
       }
     } else {
       this.props.history.push('/dashboard');
