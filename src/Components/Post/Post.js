@@ -6,37 +6,36 @@ class Post extends Component {
     super(props)
 
     this.state = {
-      title: '',
       img: '',
       content: '',
-      username: '',
-      profile_pic: ''
+      username: ''
     }
   }
 
   componentDidMount(){
+    // console.log(this.props.match.params)
     const {postid} = this.props.match.params;
+    // console.log(postid)
     this.getPost(postid);
   }
 
   getPost = async (id) => {
-    await axios.get(`/api/post/${id}`).then(res => {
-      console.log(res)
-      const {title, img, content, username, profile_pic} = res.data
-      this.setState({ title, img, content, username, profile_pic });
-    })
+    let post = await axios.get(`/api/post/${id}`)
+    // console.log(post)
+      this.setState({  
+        img: post.data[0].img,
+        content: post.data[0].content,
+        username: post.data[0].username
+      });
   }
 
   render() {
-    const {title, content, img, username, profile_pic} = this.state;
+    const {img, content, username} = this.state;
     return (
       <div className="Post">
-        <h1>Post Component</h1>
-        <h3>{title}</h3>
-        <p>{content}</p>
         <img src={img} alt="user post"/>
-        <h5>{username}</h5>
-        <img src={profile_pic} alt="profile"/>
+        <p>{content}</p>
+        <h3>{username}</h3>
       </div>
     );
   }
