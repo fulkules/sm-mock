@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateUser } from '../../ducks/reducer'; 
+import { RSA_NO_PADDING } from 'constants';
 
 class Auth extends Component {
   constructor(){
@@ -75,24 +76,90 @@ class Auth extends Component {
   render() {
     const { username, password } = this.state;
     return (
-      <div className="Auth">
-        <h1>Auth Component</h1>
-        <input 
-          type="text"
-          value={username}
-          placeholder='username'
-          onChange={ e => this.handleChange('username', e.target.value) }
-        
-        />
-        <input 
-          type="password"
-          value={password}
-          placeholder='password'
-          onChange={ e => this.handleChange('password', e.target.value) }
-        
-        />
-        <button onClick={ this.login }>Login</button>
-        <button onClick={ this.register }>Register</button>
+      <div 
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100vw'
+        }}>
+        <div 
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignContent: 'center',
+            padding: '3rem',
+            boxShadow: '2px 2px 2px 2px #777',
+            borderRadius: '1rem'
+            }}>
+          <i className="far fa-smile-wink fa-9x"></i>
+          <h1>Social Media Mock</h1>
+          <input 
+            type="text"
+            value={username}
+            placeholder='username'
+            onChange={ e => this.handleChange('username', e.target.value) }
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              margin: '1rem',
+              borderRadius: '1rem',
+              height: '2rem'
+            }}
+          />
+          <input 
+            type="password"
+            value={password}
+            placeholder='password'
+            onChange={ e => this.handleChange('password', e.target.value) }
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              margin: '1rem',
+              borderRadius: '1rem',
+              height: '2rem'
+            }}
+          />
+          <div>
+            <button 
+              onClick={ this.login }
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: '1rem',
+                height: '3rem',
+                width: '8rem',
+                borderRadius: '2rem'
+              }}
+            >
+              Login
+            </button>
+            <button 
+              onClick={ this.register }
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: '1rem',
+                height: '3rem',
+                width: '8rem',
+                borderRadius: '2rem'
+              }}
+            >
+              Register
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
