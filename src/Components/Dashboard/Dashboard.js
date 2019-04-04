@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import styled from 'styled-components';
+
+const Header = styled.div`
+	background: black;
+`
 
 class Dashboard extends Component {
   constructor(props){
@@ -30,6 +35,7 @@ class Dashboard extends Component {
 				this.initComponent()
 				// console.log(res)
 			} catch(err) {
+				console.log(err)
 				this.props.history.push('/')
 			}
 		} else {
@@ -96,13 +102,13 @@ class Dashboard extends Component {
     const {posts, unchecked, search } = this.state;
     const mappedPosts = posts.map( post => {
       return (
-        <Link key={post.id} to={`/post/${post.id}`}>
-			<div>
-				<h3>{post.title}</h3>
-				<p>{post.username}</p>
-				<img src={post.img} alt=""/>
-			</div>
-        </Link>
+      	<Link key={post.id} to={`/post/${post.id}`} style={{textDecoration: 'none'}}>
+					<div style={{overflowY: 'scroll'}}>
+						<h3>{post.title}</h3>
+						<p>{post.username}</p>
+						<img src={post.img} alt="user post"/>
+					</div>
+      	</Link>
       )
     })
     return (
@@ -111,28 +117,26 @@ class Dashboard extends Component {
 			style={{
 				background: '#F2F2F2',
 				height: '100vh',
+				width: 'calc(100vw - 7rem)',
+				float: 'right',
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'center',
 				alignItems: 'center',
 				alignContent: 'center',
+				overflowY: 'scroll'
 				
 			}}
 		>
-        	<div>
+      <div>
 				<input 
 					type="text" 
 					placeholder="Search by Title" 
-					value={this.state.search}
+					value={search}
 					onChange={ e => { this.handleChange('search', e.target.value) } }
 					style={{
 						borderRadius: '1rem',
 						height: '1.8rem',
-						display: 'flex',
-						// justifyContent: 'center',
-						// alignItems: 'flex-start',
-						// alignContent: 'center',
-						
 					}}
 				/>
 				<button onClick={ this.searchPost }>Search</button>
