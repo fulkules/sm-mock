@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateUser } from '../../ducks/reducer'; 
-import { RSA_NO_PADDING } from 'constants';
+import './Auth.css';
 
 class Auth extends Component {
   constructor(){
@@ -44,7 +44,8 @@ class Auth extends Component {
   register = async () => {
     let user = {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
+      profile_pic: `https://robohash.org/${(Math.random(this.props.id))}`
     }
     try {
       let res = await axios.post('/auth/register', user)
@@ -77,6 +78,7 @@ class Auth extends Component {
     const { username, password } = this.state;
     return (
       <div 
+        className="gradients"
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -108,9 +110,9 @@ class Auth extends Component {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              margin: '1rem',
+              margin: '.5rem',
               borderRadius: '1rem',
-              height: '2rem'
+              height: '1.8rem'
             }}
           />
           <input 
@@ -122,12 +124,11 @@ class Auth extends Component {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              margin: '1rem',
+              margin: '.5rem',
               borderRadius: '1rem',
-              height: '2rem'
+              height: '1.8rem'
             }}
           />
-          <div>
             <button 
               onClick={ this.login }
               style={{
@@ -135,10 +136,11 @@ class Auth extends Component {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                margin: '1rem',
-                height: '3rem',
-                width: '8rem',
-                borderRadius: '2rem'
+                margin: '.5rem',
+                height: '2rem',
+                width: '7rem',
+                borderRadius: '2rem',
+                cursor: 'pointer'
               }}
             >
               Login
@@ -150,15 +152,15 @@ class Auth extends Component {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                margin: '1rem',
-                height: '3rem',
-                width: '8rem',
-                borderRadius: '2rem'
+                margin: '.5rem',
+                height: '2rem',
+                width: '7rem',
+                borderRadius: '2rem',
+                cursor: 'pointer'
               }}
             >
               Register
             </button>
-          </div>
         </div>
       </div>
     );
@@ -175,4 +177,4 @@ const mapDispatchToProps = {
   updateUser
 }
 
-export default connect(mapStateToProps, mapDispatchToProps  )(Auth);
+export default connect(mapStateToProps, mapDispatchToProps )(Auth);

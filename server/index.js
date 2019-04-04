@@ -23,6 +23,8 @@ const pgPool = new pg.Pool({
 
 app.use(express.json());
 
+// app.use( express.static( `${__dirname}/../build` ) );
+
 app.use(session({
     store: new pgSession({
         pool: pgPool,
@@ -34,13 +36,29 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 48 }
 }));
 
-
 massive(CONNECTION_STRING)
 .then(db => {
     app.set('db', db);
     console.log('db is live');
     app.listen(SERVER_PORT, () => console.log(`Port ${SERVER_PORT}, living large!`))
 });
+
+//CUSTOM MIDDLEWARE
+
+    // TOP LEVEL
+// app.use('/api/current', function(req, res, next) {
+//     console.log(1111, req);
+//     console.log(2222, res);
+//     next();
+// })
+
+    // ROUTER LEVEL
+// var router = express.Router();
+
+// router.use(function(req, res, next){
+//     console.log('Time:', Date.now());
+//     next();
+// })
 
 // USER ENDPOINTS
 app.post('/auth/register', ac.register);
@@ -51,6 +69,9 @@ app.get('/api/current', ac.getUser);
 // POSTS
 app.get('/api/posts', pc.getAllPosts);
 app.get('/api/post/:id', pc.getPost);
+app.get('/posts/search_posts',pc.searchPost);
+app.get('/posts/getUser/:id',pc.getUser);
+app.get('/posts/getNonUser',pc.getNonUser);
 app.post('/api/new', pc.addPost);
 app.delete('/api/post/:id', pc.deletePost);
 app.put('/api/post/:id', pc.updatePost);
