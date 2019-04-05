@@ -191,11 +191,11 @@ class Dashboard extends Component {
 				/>
 				<button onClick={ this.searchPost }>Search</button>
 				<button onClick={ this.displayPosts }>Reset</button>
-				<input 
+				My Posts<input 
 					type="checkbox"
 					value={unchecked} 
 					onChange={this.handleCheck}
-				/>My Posts
+				/>
 			</div>
         	<div
 						className='posts-container'
