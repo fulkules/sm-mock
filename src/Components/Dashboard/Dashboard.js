@@ -98,15 +98,56 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.state.posts)
-    const {posts, unchecked, search } = this.state;
-    const mappedPosts = posts.map( post => {
+		console.log(this.state.posts)
+		console.log(this.props)
+		const {posts, unchecked, search } = this.state;
+    const mappedPosts = posts.map( (post, i) => {
+			// const {profile_pic} = this.state.post[i]
       return (
       	<Link key={post.id} to={`/post/${post.id}`} style={{textDecoration: 'none'}}>
-					<div style={{overflowY: 'scroll'}}>
-						<h3>{post.title}</h3>
-						<p>{post.username}</p>
-						<img src={post.img} alt="user post"/>
+					<div 
+						style={{
+							width: '40rem',
+							padding: '0.5rem',
+							border: '1px solid #222',
+							overflowY: 'scroll',
+							margin: '.5rem',
+							boxShadow: '2px 2px #777',
+							display: 'flex',
+							justifyContent: 'space-between'
+						}}
+					>
+						<h3
+							style={{
+								display: 'flex',
+								justifyContent: 'flex-start'
+							}}
+						>{post.title}</h3>
+
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'flex-end',
+								alignItems: 'center'
+							}}
+						>
+							<p
+								style={{
+									marginRight: '1rem'
+								}}
+							>by: {post.username}</p>
+							<img 
+								src={post.profile_pic} 
+								alt="profile" 
+								style={{
+									height: '3rem',
+									marginRight: '1rem',
+									borderRadius: '50%',
+									border: '1px solid #222',
+									boxShadow: '2px #777'
+								}}
+							/>
+						</div>
 					</div>
       	</Link>
       )
@@ -128,7 +169,15 @@ class Dashboard extends Component {
 				
 			}}
 		>
-      <div>
+      <div style={{
+				display: 'flex',
+				width: '40rem',
+				justifyContent: 'space-evenly',
+				boxShadow: '2px 2px #777',
+				alignItems: 'center',
+				border: '1px solid #222',
+				padding: '0.5rem'
+			}}>
 				<input 
 					type="text" 
 					placeholder="Search by Title" 
@@ -136,7 +185,8 @@ class Dashboard extends Component {
 					onChange={ e => { this.handleChange('search', e.target.value) } }
 					style={{
 						borderRadius: '1rem',
-						height: '1.8rem',
+						height: '1.5rem',
+						width: '10rem'
 					}}
 				/>
 				<button onClick={ this.searchPost }>Search</button>
@@ -145,16 +195,15 @@ class Dashboard extends Component {
 					type="checkbox"
 					value={unchecked} 
 					onChange={this.handleCheck}
-				/>
+				/>My Posts
 			</div>
         	<div
 						className='posts-container'
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
-							flexWrap: 'nowrap',
 							justifyContent: 'center',
-							alignItems: 'stretch',
+							alignItems: 'center',
 							alignContent: 'center'
 						}}
 					>
