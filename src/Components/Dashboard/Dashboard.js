@@ -159,6 +159,7 @@ class Dashboard extends Component {
 				background: '#F2F2F2',
 				height: '100vh',
 				width: 'calc(100vw - 7rem)',
+				paddingTop: '2rem',
 				float: 'right',
 				display: 'flex',
 				flexDirection: 'column',
@@ -171,6 +172,7 @@ class Dashboard extends Component {
 		>
       <div style={{
 				display: 'flex',
+				height: '3rem',
 				width: '40rem',
 				justifyContent: 'space-evenly',
 				boxShadow: '2px 2px #777',
@@ -201,8 +203,10 @@ class Dashboard extends Component {
 						className='posts-container'
 						style={{
 							display: 'flex',
+							height: 'calc(100vh - 3rem)',
+							paddingBottom: '3rem',
 							flexDirection: 'column',
-							justifyContent: 'center',
+							justifyContent: 'flex-start',
 							alignItems: 'center',
 							alignContent: 'center'
 						}}

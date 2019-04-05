@@ -8,6 +8,7 @@ import styled from 'styled-components';
 const Navbar = styled.div`
   display: flex;
   height: 100vh;
+  position: fixed;
   width: 7rem;
   float: left;
   flex-direction: column;
