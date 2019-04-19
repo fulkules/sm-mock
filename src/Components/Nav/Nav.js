@@ -38,6 +38,10 @@ const Navbar = styled.div`
     100% { background-position: 0% 50% }
   }
 
+  @media (max-width: 600px) {
+    display: none;
+  }
+
   Link {
     text-decoration: none;
   }
@@ -45,11 +49,37 @@ const Navbar = styled.div`
   i {
     textDecoration: none;
     display: flex;
-
   }
 `;
 
+// const MenuBurger = styled.div`
+//   color: #6C83B8;
+//   display: flex;
+//   justifyContent: flex-star;
+//   alignItems: flex-start;
+//   margin: 1rem;
+
+//   @media (min-width: 600px){
+//     display: none;
+//   }
+// `;
+
+// const SlideOut = styled.div`
+//   ${({display}) => display && `
+//     transition: width 0.7s;
+//     scroll-behavior: smooth;
+//     z-index: 1;
+//   `}
+// `;
+
 class Nav extends Component {
+  constructor(props){
+    super()
+    
+    this.state = {
+      display: false
+    }
+  }
 
   logout = async () => {
     await axios.post('/auth/logout');
@@ -57,15 +87,34 @@ class Nav extends Component {
     this.props.history.push('/');
   }
 
-  render() {
-    console.log(this.props)
-    return (
-      <Navbar>
+  handleClick = (prevState) => {
+    console.log(prevState)
+    this.setState(() => {
+      return {display: !prevState.display}
+    })
+  }
 
-        <Link to="/dashboard" style={{textDecoration: 'none', color: '#fff'}}><i className="fas fa-home fa-3x"></i></Link>
-        <Link to="/new" style={{textDecoration: 'none', color: '#fff'}}><i className="far fa-plus-square fa-3x"></i></Link>
-        <i style={{color: '#fff'}} onClick={ this.logout } className="fas fa-power-off fa-3x"></i>
-      </Navbar>
+  render() {
+    // console.log(this.props)
+    return (
+      <>
+        {/* <MenuBurger>
+          <i 
+            className="fas fa-bars fa-3x"
+            onClick={this.handleClick}
+          ></i>
+        </MenuBurger>
+        <SlideOut>
+          <Link to="/dashboard" style={{textDecoration: 'none', color: '#fff'}}><i className="fas fa-home"></i></Link>
+          <Link to="/new" style={{textDecoration: 'none', color: '#fff'}}><i className="far fa-plus-square"></i></Link>
+          <i style={{color: '#fff'}} onClick={ this.logout } className="fas fa-power-off"></i>
+        </SlideOut> */}
+        <Navbar>
+          <Link to="/dashboard" style={{textDecoration: 'none', color: '#fff'}}><i className="fas fa-home fa-3x"></i></Link>
+          <Link to="/new" style={{textDecoration: 'none', color: '#fff'}}><i className="far fa-plus-square fa-3x"></i></Link>
+          <i style={{color: '#fff'}} onClick={ this.logout } className="fas fa-power-off fa-3x"></i>
+        </Navbar>
+      </>
     );
   }
 }

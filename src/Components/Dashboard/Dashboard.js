@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-import styled from 'styled-components';
-
-const Header = styled.div`
-	background: black;
-`
+// import styled from 'styled-components';
 
 class Dashboard extends Component {
   constructor(props){
@@ -64,7 +60,8 @@ class Dashboard extends Component {
 		const {search,unchecked} = this.state;
 		const {id} =this.props;
 
-		if(!unchecked && search != ''){
+		if(!unchecked && search !== ''){
+			console.log()
 				let posts = await axios.get(`/posts/getAllSearch?search=${search}`)
 				console.log(444,posts.data)
 				this.setState({
