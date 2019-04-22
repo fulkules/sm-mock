@@ -1,36 +1,36 @@
-import React, { Component } from 'react';
-import {connect} from 'react-redux';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 // import styled from 'styled-components';
 
 class Dashboard extends Component {
-  constructor(props){
-    super(props)
+	constructor(props) {
+		super(props)
 
-    this.state = {
-      search: '',
+		this.state = {
+			search: '',
 			posts: [],
-			unchecked: true
-    }
-  }
+			checked: false
+		}
+	}
 
 
 
-  componentDidMount(){
-	this.getUser();
-  }
+	componentDidMount() {
+		this.getUser();
+	}
 
 	getUser = async () => {
 		console.log(this.props)
 		const { id } = this.props;
-		if(!id){
+		if (!id) {
 			try {
 				let res = await axios.get('/api/current');
 				this.props.updateUser(res.data)
 				this.initComponent()
 				// console.log(res)
-			} catch(err) {
+			} catch (err) {
 				console.log(err)
 				this.props.history.push('/')
 			}
@@ -44,65 +44,70 @@ class Dashboard extends Component {
 	}
 
 	displayPosts = async () => {
-	  // this.state.posts.map(post => post)
-		await axios.get('/api/posts').then(res => {				
-	  		this.setState({ posts: res.data })
-	    })
+		// this.state.posts.map(post => post)
+		await axios.get('/api/posts').then(res => {
+			this.setState({ posts: res.data })
+		})
 	}
 
 	handleCheck = () => {
 		this.setState({
-			unchecked: !this.state.unchecked
+			checked: !this.state.checked
 		})
 	}
 
-	searchPost=async()=>{
-		const {search,unchecked} = this.state;
-		const {id} =this.props;
+	searchPost = async () => {
+		const { search, checked } = this.state;
+		console.log(checked)
+		const { id } = this.props;
 
-		if(!unchecked && search !== ''){
-			console.log()
-				let posts = await axios.get(`/posts/getAllSearch?search=${search}`)
-				console.log(444,posts.data)
-				this.setState({
-						posts:posts.data,
-						search:''
-				})
-		} else if(!unchecked && search === ''){
-				let posts = await axios.get(`/posts/getUser/${id}`)
-				this.setState({
-						posts:posts.data,
-						search:''
-				})
-		} else if(unchecked && search !== ''){
-				let posts = await axios.get(`/posts/getNonUser?search=${search}&id=${id}`)
-				this.setState({
-						posts:posts.data,
-						search:''
-				})
+		if (checked && search !== '') {
+			// all posts including the active user with a search
+			console.log('hit')
+			let posts = await axios.get(`/posts/search_posts?search=${search}`)
+			console.log(444, posts.data)
+			this.setState({
+				posts: posts.data,
+				search: ''
+			})
+		} else if (checked && search === '') {
+			// active users posts without a search
+			let posts = await axios.get(`/posts/getUser/${id}`)
+			this.setState({
+				posts: posts.data,
+				search: ''
+			})
+		} else if (!checked && search !== '') {
+			// everyone else's posts with a search
+			let posts = await axios.get(`/posts/getNonUser?search=${search}&id=${id}`)
+			this.setState({
+				posts: posts.data,
+				search: ''
+			})
 		} else {
-				this.displayPosts();
+			// return every post regardless of search
+			this.displayPosts();
 		}
-}
+	}
 
 
-  handleChange(prop, val){
-    this.setState({ [prop]: val })
-  }
+	handleChange(prop, val) {
+		this.setState({ [prop]: val })
+	}
 
-  handleBox = () => {
-    this.setState({ myPosts: !this.state.myPosts })
-  }
+	handleBox = () => {
+		this.setState({ myPosts: !this.state.myPosts })
+	}
 
-  render() {
+	render() {
 		console.log(this.state.posts)
 		console.log(this.props)
-		const {posts, unchecked, search } = this.state;
-    const mappedPosts = posts.map( (post, i) => {
+		const { posts, checked, search } = this.state;
+		const mappedPosts = posts.map((post, i) => {
 			// const {profile_pic} = this.state.post[i]
-      return (
-      	<Link key={post.id} to={`/post/${post.id}`} style={{textDecoration: 'none'}}>
-					<div 
+			return (
+				<Link key={post.id} to={`/post/${post.id}`} style={{ textDecoration: 'none' }}>
+					<div
 						style={{
 							width: '40rem',
 							padding: '0.5rem',
@@ -133,9 +138,9 @@ class Dashboard extends Component {
 									marginRight: '1rem'
 								}}
 							>by: {post.username}</p>
-							<img 
-								src={post.profile_pic} 
-								alt="profile" 
+							<img
+								src={post.profile_pic}
+								alt="profile"
 								style={{
 									height: '3rem',
 									marginRight: '1rem',
@@ -146,78 +151,78 @@ class Dashboard extends Component {
 							/>
 						</div>
 					</div>
-      	</Link>
-      )
-    })
-    return (
-		<div 
-			className="Dashboard"
-			style={{
-				background: '#F2F2F2',
-				height: '100vh',
-				width: 'calc(100vw - 7rem)',
-				paddingTop: '2rem',
-				float: 'right',
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
-				alignContent: 'center',
-				overflowY: 'scroll'
-				
-			}}
-		>
-      <div style={{
-				display: 'flex',
-				height: '3rem',
-				width: '40rem',
-				justifyContent: 'space-evenly',
-				boxShadow: '2px 2px #777',
-				alignItems: 'center',
-				border: '1px solid #222',
-				padding: '0.5rem'
-			}}>
-				<input 
-					type="text" 
-					placeholder="Search by Title" 
-					value={search}
-					onChange={ e => { this.handleChange('search', e.target.value) } }
-					style={{
-						borderRadius: '1rem',
-						height: '1.5rem',
-						width: '10rem'
-					}}
-				/>
-				<button onClick={ this.searchPost }>Search</button>
-				<button onClick={ this.displayPosts }>Reset</button>
-				My Posts<input 
-					type="checkbox"
-					value={unchecked} 
-					onChange={this.handleCheck}
-				/>
-			</div>
-        	<div
-						className='posts-container'
+				</Link>
+			)
+		})
+		return (
+			<div
+				className="Dashboard"
+				style={{
+					background: '#F2F2F2',
+					height: '100vh',
+					width: 'calc(100vw - 7rem)',
+					paddingTop: '2rem',
+					float: 'right',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center',
+					alignContent: 'center',
+					overflowY: 'scroll'
+
+				}}
+			>
+				<div style={{
+					display: 'flex',
+					height: '3rem',
+					width: '40rem',
+					justifyContent: 'space-evenly',
+					boxShadow: '2px 2px #777',
+					alignItems: 'center',
+					border: '1px solid #222',
+					padding: '0.5rem'
+				}}>
+					<input
+						type="text"
+						placeholder="Search by Title"
+						value={search}
+						onChange={e => { this.handleChange('search', e.target.value) }}
 						style={{
-							display: 'flex',
-							height: 'calc(100vh - 3rem)',
-							paddingBottom: '3rem',
-							flexDirection: 'column',
-							justifyContent: 'flex-start',
-							alignItems: 'center',
-							alignContent: 'center'
+							borderRadius: '1rem',
+							height: '1.5rem',
+							width: '10rem'
 						}}
-					>
-        	  {mappedPosts}
-        	</div>
-      	</div>
-    );
-  }
+					/>
+					<button onClick={this.searchPost}>Search</button>
+					<button onClick={this.displayPosts}>Reset</button>
+					My Posts<input
+						type="checkbox"
+						value={checked}
+						onChange={this.handleCheck}
+					/>
+				</div>
+				<div
+					className='posts-container'
+					style={{
+						display: 'flex',
+						height: 'calc(100vh - 3rem)',
+						paddingBottom: '3rem',
+						flexDirection: 'column',
+						justifyContent: 'flex-start',
+						alignItems: 'center',
+						alignContent: 'center'
+					}}
+				>
+					{mappedPosts}
+				</div>
+			</div>
+		);
+	}
 }
 
 const mapStateToProps = (reduxState) => {
-  // console.log(reduxState)
-  return reduxState;
+	// console.log(reduxState)
+	return reduxState;
 }
 
 const mapDispatchToProps = {
